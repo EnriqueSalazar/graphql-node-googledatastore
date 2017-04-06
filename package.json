@@ -1,0 +1,29 @@
+{
+  "name": "nodejs-graphql-getting-started",
+  "version": "1.0.0",
+  "description": "Node.JS and Express server connecting GraphQL and Google Datastore",
+  "repository": "https://github.com/GoogleCloudPlatform/nodejs-getting-started",
+  "private": true,
+  "scripts": {
+    "start": "node app.js",
+    "monitor": "nodemon app.js",
+    "deploy": "gcloud app deploy app.yaml",
+    "debug": "node --nolazy --debug-brk=5858 app.js"
+  },
+  "dependencies": {
+    "@google-cloud/datastore": "^0.8.0",
+    "body-parser": "^1.17.1",
+    "express": "^4.14.0",
+    "graphql": "^0.9.2",
+    "graphql-server-express": "^0.6.0",
+    "graphql-tools": "^0.11.0"
+  },
+  "devDependencies": {
+    "mocha": "^3.0.2",
+    "nodejs-repo-tools": "git+https://git@github.com/GoogleCloudPlatform/nodejs-repo-tools.git",
+    "supertest": "^2.0.0"
+  },
+  "engines": {
+    "node": ">=4.3.2"
+  }
+}
