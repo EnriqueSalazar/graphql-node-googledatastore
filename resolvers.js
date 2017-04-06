@@ -9,11 +9,13 @@ const projectId = conf.projectId;
 // Instantiates a client
 const datastore = Datastore({projectId: projectId});
 
-const quizEntriesQuery = datastore.createQuery('quizEntry');
+// Kind in Datastore is like collection or table
+const kind = 'quizEntry';
 
 exports.resolvers = {
     Query: {
         quizEntries() {
+            const quizEntriesQuery = datastore.createQuery(kind);
             return datastore
                 .runQuery(quizEntriesQuery)
                 .then((results) => {
@@ -28,7 +30,6 @@ exports.resolvers = {
     },
     Mutation: {
         createQuizEntry: (root, {firstName, lastName}) => {
-            const kind = 'quizEntry';
             const quizEntryKey = datastore.key([kind]);
             const quizEntry = {
                 key: quizEntryKey,
