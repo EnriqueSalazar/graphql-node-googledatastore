@@ -12,7 +12,6 @@ router.use((req, res, next) => {
 router.use(oauth2.template);
 
 router.use('/', (req, res) => {
-    console.log('originalURL', req.originalUrl)
     if (typeof res.locals.profile === 'undefined') {
         res.send(`
             <a href='${res.locals.login}'>
