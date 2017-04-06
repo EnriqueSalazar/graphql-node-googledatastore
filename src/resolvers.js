@@ -1,10 +1,10 @@
-const conf = require('./conf').conf
+const config = require('../config');
 
 // Imports the Google Cloud client library
 const Datastore = require('@google-cloud/datastore');
 
 // Your Google Cloud Platform project ID
-const projectId = conf.projectId;
+const projectId = config.get('GCLOUD_PROJECT');
 
 // Instantiates a client
 const datastore = Datastore({projectId: projectId});

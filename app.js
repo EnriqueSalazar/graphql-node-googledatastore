@@ -1,24 +1,40 @@
 'use strict';
 
 const express = require('express');
+const session = require('express-session');
+const MemcachedStore = require('connect-memcached')(session);
+const passport = require('passport');
+
+const config = require('./config');
 
 const app = express();
+// Configure the session and session storage.
+const sessionConfig = {
+  resave: false,
+  saveUninitialized: false,
+  secret: config.get('SECRET'),
+  signed: true
+};
 
-var graphql = require('graphql').graphql
+// In production use the App Engine Memcache instance to store session data,
+// otherwise fallback to the default MemoryStore in development.
+if (config.get('NODE_ENV') === 'production') {
+  sessionConfig.store = new MemcachedStore({
+    hosts: [config.get('MEMCACHE_URL')]
+  });
+}
 
-const graphqlExpress = require('graphql-server-express').graphqlExpress;
-const graphiqlExpress = require('graphql-server-express').graphiqlExpress;
+app.use(session(sessionConfig));
+// [END session]
+//
+// OAuth2
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(require('./lib/oauth2').router);
 
-const bodyParser = require('body-parser');
-
-const schema = require('./schema').schema;
-
-// http://localhost:8080/graphql?query={__schema{types{name}}}
-// http://localhost:8080/graphql?query={quizEntries{firstName,lastName}}
-app.use('/graphql', bodyParser.json(), graphqlExpress({schema}));
-
-// http://localhost:8080/graphiql?query={__schema{types{name}}}
-app.use('/graphiql', graphiqlExpress({endpointURL: '/graphql'}));
+app.use('/graphql', require('./src/graphql'));
+app.use('/graphiql', require('./src/graphiql'));
+app.use('/', require('./src/main'));
 
 if (module === require.main) {
   // [START server] Start the server
