@@ -1,10 +1,10 @@
-const conf = require('./conf').conf
-
+// const conf = require('./conf').conf
+const conf= require('./config')
 // Imports the Google Cloud client library
 const Datastore = require('@google-cloud/datastore');
 
 // Your Google Cloud Platform project ID
-const projectId = conf.projectId;
+const projectId = conf.get('GCLOUD_PROJECT');
 
 // Instantiates a client
 const datastore = Datastore({projectId: projectId});
@@ -29,13 +29,13 @@ exports.resolvers = {
         }
     },
     Mutation: {
-        createQuizEntry: (root, {firstName, lastName}) => {
+        createQuizEntry: (root, {firstname, lastname}) => {
             const quizEntryKey = datastore.key([kind]);
             const quizEntry = {
                 key: quizEntryKey,
                 data: {
-                    firstName,
-                    lastName
+                    firstname,
+                    lastname
                 }
             }
             return datastore
@@ -45,7 +45,7 @@ exports.resolvers = {
                     // The key (quizEntryKey) you pass within the entity (quizEntry) gets modified
                     // by save and receives a path property with the auto generated ID.
                     const id = quizEntryKey.path[1];
-                    return {id, firstName, lastName}
+                    return {id, firstname, lastname}
                 })
         }
     }

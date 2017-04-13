@@ -1,3 +1,16 @@
+
+// mutation{
+//   createQuizEntry(firstname:"Enrique", lastname:"Salazar"){
+//     id
+//   }
+// }
+
+// query{quizEntries{
+//   id,
+//   firstname,
+//   lastname
+// }}
+
 const makeExecutableSchema = require('graphql-tools').makeExecutableSchema;
 
 const resolvers = require('./resolvers').resolvers;
@@ -5,16 +18,16 @@ const resolvers = require('./resolvers').resolvers;
 const typeDefs = `
 type QuizEntry {
     id:ID
-    firstName: String
-    lastName: String
+    firstname: String
+    lastname: String
 }
 
 type Query {
-    quizEntries: [QuizEntry]    
+    quizEntries: [QuizEntry]
 }
 
 type Mutation {
-    createQuizEntry(firstName:String, lastName: String):QuizEntry
+    createQuizEntry(firstname:String, lastname: String):QuizEntry
 }
 `;
 const schema = makeExecutableSchema({typeDefs, resolvers});
