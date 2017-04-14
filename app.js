@@ -3,7 +3,7 @@
 const express = require('express');
 const winston = require( 'winston');
 const expressWinston = require( 'express-winston');
-const cors = require('cors');
+// const cors = require('cors');
 const app = express();
 
 // Log the whole request and response body
@@ -21,9 +21,7 @@ app.use(expressWinston.logger({
 }))
 
 //to enable CORS for local testing
-app.use(cors());
-
-var graphql = require('graphql').graphql
+// app.use(cors());
 
 const graphqlExpress = require('graphql-server-express').graphqlExpress;
 const graphiqlExpress = require('graphql-server-express').graphiqlExpress;
@@ -55,7 +53,7 @@ if (module === require.main) {
     const port = server
       .address()
       .port;
-    console.log(`App listening on port ${port}`);
+    console.log(`App listening on port ${port}`);//eslint-disable-line
   });
   // [END server]
 }

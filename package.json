@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "start": "node app.js",
-    "monitor": "nodemon app.js",
+    "dev": "nodemon app.js",
     "deploy": "gcloud app deploy app.yaml",
     "debug": "node --nolazy --debug-brk=5858 app.js"
   },
@@ -29,6 +29,6 @@
     "supertest": "^2.0.0"
   },
   "engines": {
-    "node": ">=4.3.2"
+    "node": ">=6.10.0"
   }
 }

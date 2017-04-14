@@ -1,5 +1,6 @@
+'use strict';
 // const conf = require('./conf').conf
-const conf= require('./config')
+const conf= require('./config').conf;//eslint-disable-line
 // Imports the Google Cloud client library
 const Datastore = require('@google-cloud/datastore');
 
@@ -12,7 +13,7 @@ const datastore = Datastore({projectId: projectId});
 // Kind in Datastore is like collection or table
 const kind = 'quizEntry';
 
-exports.resolvers = {
+module.exports.resolvers = {
     Query: {
         quizEntries() {
             const quizEntriesQuery = datastore.createQuery(kind);
@@ -40,8 +41,8 @@ exports.resolvers = {
             }
             return datastore
                 .save(quizEntry)
-                .then((result) => {
-                    console.info('createEntry success', quizEntryKey.path, quizEntry.data);
+                .then(() => {
+                    // console.info('createEntry success', quizEntryKey.path, quizEntry.data);
                     // The key (quizEntryKey) you pass within the entity (quizEntry) gets modified
                     // by save and receives a path property with the auto generated ID.
                     const id = quizEntryKey.path[1];

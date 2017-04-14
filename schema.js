@@ -1,3 +1,4 @@
+'use strict';
 
 // mutation{
 //   createQuizEntry(firstname:"Enrique", lastname:"Salazar"){
@@ -32,4 +33,4 @@ type Mutation {
 `;
 const schema = makeExecutableSchema({typeDefs, resolvers});
 
-exports.schema = schema;
+module.exports.schema = schema;
