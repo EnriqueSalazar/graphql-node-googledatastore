@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 // mutation{
 //   createQuizEntry(firstname:"Enrique", lastname:"Salazar"){
@@ -12,9 +12,9 @@
 //   lastname
 // }}
 
-const makeExecutableSchema = require('graphql-tools').makeExecutableSchema;
+const makeExecutableSchema = require('graphql-tools').makeExecutableSchema
 
-const resolvers = require('./resolvers').resolvers;
+const resolvers = require('./resolvers').resolvers
 
 const typeDefs = `
 type QuizEntry {
@@ -30,7 +30,7 @@ type Query {
 type Mutation {
     createQuizEntry(firstname:String, lastname: String):QuizEntry
 }
-`;
-const schema = makeExecutableSchema({typeDefs, resolvers});
+`
+const schema = makeExecutableSchema({typeDefs, resolvers})
 
-module.exports.schema = schema;
+module.exports.schema = schema
