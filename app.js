@@ -3,6 +3,7 @@
 const express = require('express')
 const session = require('express-session')
 const cookieParser = require('cookie-parser')
+const jwt = require('express-jwt')
 
 const winston = require('winston')
 const expressWinston = require('express-winston')
@@ -49,6 +50,18 @@ app.use(session(sessionConfig))
 app.use(passport.initialize())
 app.use(passport.session())
 app.use(oauth2.router)
+
+app.use(jwt({secret: config.get('SECRET')}).unless({path: ['/auth/google/callback', '/auth/login', '/auth/logout', '/graphql/']}), (err, req, res, next) => {
+  console.error('req.path :', req.path) // eslint-disable-line no-console
+  if (err) {
+    // console.error('err :', err) // eslint-disable-line no-console
+    console.error('err.name :', err.name) // eslint-disable-line no-console
+    console.error('err.message :', err.message) // eslint-disable-line no-console
+    console.error('err.code :', err.code) // eslint-disable-line no-console
+  } else {
+    console.log(req.user) // eslint-disable-line no-console
+  }
+})
 
 // to enable CORS for local testing
 // app.use(cors());
