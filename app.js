@@ -20,6 +20,11 @@ const schema = require('./src/schema').schema
 const config = require('./config/config').config // eslint-disable-line node/no-unpublished-require
 
 const app = express()
+app.use((req, res, next) => {
+  console.error('req.path :', req.path) // eslint-disable-line no-console
+  console.error('req.user :', req.user) // eslint-disable-line no-console
+  next()
+})
 app.use(cookieParser())
 
 // Log the whole request and response body
@@ -49,19 +54,29 @@ app.use(session(sessionConfig))
 // OAuth2
 app.use(passport.initialize())
 app.use(passport.session())
-app.use(oauth2.router)
 
-app.use(jwt({secret: config.get('SECRET')}).unless({path: ['/auth/google/callback', '/auth/login', '/auth/logout', '/graphql/']}), (err, req, res, next) => {
-  console.error('req.path :', req.path) // eslint-disable-line no-console
+// ['/auth/google/callback', '/auth/login', '/auth/logout', '/graphql/']
+app.use(jwt({
+  secret: config.get('SECRET'),
+  getToken: (req) => {
+    const cookie = JSON.parse(req.cookies[config.get('COOKIE_NAME')])
+    const token = cookie.token
+    return token
+  }
+}).unless({path: ['/auth/google/callback', '/auth/login', '/auth/logout', '/graphql/']}), (err, req, res, next) => {
   if (err) {
-    // console.error('err :', err) // eslint-disable-line no-console
     console.error('err.name :', err.name) // eslint-disable-line no-console
     console.error('err.message :', err.message) // eslint-disable-line no-console
     console.error('err.code :', err.code) // eslint-disable-line no-console
-  } else {
-    console.log(req.user) // eslint-disable-line no-console
+    res.redirect('/auth/login')
   }
 })
+app.use((req, res, next) => {
+  console.error('req.path :', req.path) // eslint-disable-line no-console
+  console.error('req.user :', req.user) // eslint-disable-line no-console
+  next()
+})
+app.use(oauth2.router)
 
 // to enable CORS for local testing
 // app.use(cors());
