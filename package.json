@@ -1,9 +1,9 @@
 {
-  "name": "nodejs-graphql-getting-started",
+  "name": "quiz2-server",
   "version": "1.0.0",
   "main": "app.js",
   "description": "Node.JS and Express server connecting GraphQL and Google Datastore",
-  "repository": "https://github.com/GoogleCloudPlatform/nodejs-getting-started",
+  "repository": "",
   "private": true,
   "scripts": {
     "start": "node app.js",
@@ -24,6 +24,7 @@
     "graphql-server-express": "^0.6.0",
     "graphql-tools": "^0.11.0",
     "jsonwebtoken": "^7.3.0",
+    "nconf": "^0.8.4",
     "passport": "^0.3.2",
     "passport-google-oauth20": "^1.0.0",
     "winston": "^2.3.1"

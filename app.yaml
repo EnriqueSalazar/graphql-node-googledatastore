@@ -12,8 +12,15 @@
 # limitations under the License.
 #
 # [START runtime]
+service: quiz2-server
 runtime: nodejs
 env: flex
+health_check:
+  enable_health_check: True
+  check_interval_sec: 10
+  timeout_sec: 4
+  unhealthy_threshold: 2
+  healthy_threshold: 2
 # [END runtime]
 
 # Temporary setting to keep gcloud from uploading node_modules

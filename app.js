@@ -16,6 +16,15 @@ const schema = require('./src/schema').schema
 const config = require('./config/config').config // eslint-disable-line node/no-unpublished-require
 
 const app = express()
+
+app.use('/_ah/health', (req, res) => {
+  res.sendStatus(200)
+})
+
+app.get('/', (req, res) => {
+  res.send('Hello Sytac')
+})
+
 app.use((req, res, next) => {
   console.error('req.path :', req.path) // eslint-disable-line no-console
   // console.error('req.user :', req.user) // eslint-disable-line no-console
@@ -35,7 +44,11 @@ app.use(jwt({
     const token = cookie.token
     return token
   }
-}).unless({path: ['/auth/google/callback', '/auth/login', '/auth/logout']}), (err, req, res, next) => {
+}).unless({
+  path: [
+    '/auth/google/callback',
+    '/auth/login', '/auth/logout'
+  ]}), (err, req, res, next) => {
   if (err) {
     console.error('err.name :', err.name) // eslint-disable-line no-console
     console.error('err.message :', err.message) // eslint-disable-line no-console
@@ -46,7 +59,7 @@ app.use(jwt({
 
 // For development, logs the user after JWT decrypts the token
 app.use((req, res, next) => {
-  req.user && console.error('req.user :', req.user) // eslint-disable-line no-console
+  req.user && console.error('req.user :', req.user.id, req.user.displayName) // eslint-disable-line no-console
   next()
 })
 app.use(oauth2.router)
