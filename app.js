@@ -22,7 +22,7 @@ const config = require('./config/config').config // eslint-disable-line node/no-
 const app = express()
 app.use((req, res, next) => {
   console.error('req.path :', req.path) // eslint-disable-line no-console
-  console.error('req.user :', req.user) // eslint-disable-line no-console
+  // console.error('req.user :', req.user) // eslint-disable-line no-console
   next()
 })
 app.use(cookieParser())
@@ -63,7 +63,7 @@ app.use(jwt({
     const token = cookie.token
     return token
   }
-}).unless({path: ['/auth/google/callback', '/auth/login', '/auth/logout', '/graphql/']}), (err, req, res, next) => {
+}).unless({path: ['/auth/google/callback', '/auth/login', '/auth/logout']}), (err, req, res, next) => {
   if (err) {
     console.error('err.name :', err.name) // eslint-disable-line no-console
     console.error('err.message :', err.message) // eslint-disable-line no-console
@@ -72,8 +72,8 @@ app.use(jwt({
   }
 })
 app.use((req, res, next) => {
-  console.error('req.path :', req.path) // eslint-disable-line no-console
-  console.error('req.user :', req.user) // eslint-disable-line no-console
+  // console.error('req.path :', req.path) // eslint-disable-line no-console
+  req.user && console.error('req.user :', req.user) // eslint-disable-line no-console
   next()
 })
 app.use(oauth2.router)
