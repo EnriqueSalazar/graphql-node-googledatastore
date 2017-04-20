@@ -26,7 +26,7 @@ app.get('/', (req, res) => {
 })
 
 app.use((req, res, next) => {
-  console.error('req.path :', req.path) // eslint-disable-line no-console
+  console.error('req.path :', req.hostname, req.path) // eslint-disable-line no-console
   // console.error('req.user :', req.user) // eslint-disable-line no-console
   next()
 })

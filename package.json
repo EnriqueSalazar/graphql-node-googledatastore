@@ -8,7 +8,7 @@
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",
-    "deploy": "gcloud app deploy app.yaml",
+    "deploy": "gcloud app deploy -v server-skeleton app.yaml",
     "debug": "node --nolazy --debug-brk=5858 app.js"
   },
   "dependencies": {
